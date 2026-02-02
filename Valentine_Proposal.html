@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Valentine Proposal 💖</title>
+
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Poppins:wght@300;400&display=swap" rel="stylesheet">
+
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+    background: radial-gradient(circle at top, #1b2735 0%, #090a0f 60%);
+    color: #fff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    overflow: hidden;
+}
+
+/* Stars */
+.star {
+    position: absolute;
+    width: 2px;
+    height: 2px;
+    background: white;
+    border-radius: 50%;
+    animation: twinkle 3s infinite alternate;
+}
+
+@keyframes twinkle {
+    from { opacity: 0.3; }
+    to { opacity: 1; }
+}
+
+/* Floating hearts */
+.heart {
+    position: absolute;
+    font-size: 1.5rem;
+    animation: float 6s linear infinite;
+}
+
+@keyframes float {
+    from { transform: translateY(100vh); opacity: 1; }
+    to { transform: translateY(-120vh); opacity: 0; }
+}
+
+/* Card */
+.card {
+    background: rgba(255, 255, 255, 0.12);
+    backdrop-filter: blur(12px);
+    border-radius: 25px;
+    padding: 40px;
+    text-align: center;
+    max-width: 420px;
+    width: 90%;
+    box-shadow: 0 0 40px rgba(255, 105, 180, 0.3);
+    position: relative;
+    z-index: 2;
+}
+
+.message {
+    font-family: 'Pacifico', cursive;
+    font-size: 2rem;
+    margin-bottom: 25px;
+    color: #ffb6c1;
+}
+
+.buttons {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+button {
+    font-size: 1.1rem;
+    padding: 14px 28px;
+    border: none;
+    border-radius: 50px;
+    cursor: pointer;
+    user-select: none;
+    transition: all 0.3s ease;
+}
+
+.yes-btn {
+    background: linear-gradient(45deg, #ff4d8d, #ff85a2);
+    color: #fff;
+}
+
+.yes-btn:hover {
+    transform: scale(1.1);
+}
+
+.no-btn {
+    background: linear-gradient(45deg, #6c757d, #495057);
+    color: #fff;
+    position: relative;
+}
+
+/* Success */
+.success {
+    display: none;
+    margin-top: 25px;
+    font-family: 'Pacifico', cursive;
+    font-size: 1.6rem;
+    color: #ffdde1;
+}
+
+/* Music button */
+.music-btn {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    background: rgba(255,255,255,0.2);
+    color: #fff;
+    padding: 8px 14px;
+    border-radius: 20px;
+    font-size: 0.9rem;
+    cursor: pointer;
+}
+</style>
+</head>
+
+<body>
+
+<!-- CARD -->
+<div class="card">
+    <div class="message">
+        Hey <span id="name">My Love</span>,<br>
+        Will you be my Valentine? 💕
+    </div>
+
+    <div class="buttons">
+        <button class="yes-btn" id="yesBtn">Yes ❤️</button>
+        <button class="no-btn" id="noBtn">No 💔</button>
+    </div>
+
+    <div class="success" id="successMsg">
+        Yay! You just made my universe brighter 🌌💞
+    </div>
+</div>
+
+
+<!-- MUSIC -->
+<audio id="bgMusic" loop>
+    <!-- 🔊 Replace with your own music file -->
+    <source src="music.m4a" type="audio/mp4">
+</audio>
+<div class="music-btn" id="musicBtn">🎵 Play</div>
+
+<!-- STARS -->
+<script>
+for(let i=0;i<120;i++){
+    let star=document.createElement("div");
+    star.className="star";
+    star.style.left=Math.random()*100+"vw";
+    star.style.top=Math.random()*100+"vh";
+    star.style.animationDuration=(Math.random()*3+2)+"s";
+    document.body.appendChild(star);
+}
+</script>
+
+<!-- HEARTS -->
+<script>
+setInterval(()=>{
+    const heart=document.createElement("div");
+    heart.className="heart";
+    heart.textContent="💖";
+    heart.style.left=Math.random()*100+"vw";
+    document.body.appendChild(heart);
+    setTimeout(()=>heart.remove(),6000);
+},800);
+</script>
+
+<script>
+const noBtn = document.getElementById("noBtn");
+
+const yesBtn = document.getElementById("yesBtn");
+const successMsg = document.getElementById("successMsg");
+
+yesBtn.addEventListener("click", () => {
+    successMsg.style.display = "block";
+    yesBtn.style.display = "none";
+    noBtn.style.display = "none";
+});
+
+const noMessages = [
+    "Why saying no? 😢",
+    "Don’t you love me? 💔",
+    "Please don’t do this 🥺",
+    "I know you love me ❤️",
+    "Come on… say Yes 😘",
+    "My heart says YES 💓",
+    "You’re breaking my heart 😭",
+    "Universe already decided 🌌",
+    "Stop pretending 😏",
+    "Okay… YES it is 💖"
+];
+
+let attempt = 0;
+
+function floatAway(e) {
+    e.preventDefault(); // BLOCK click
+
+    const card = document.querySelector(".card");
+    const rect = card.getBoundingClientRect();
+
+    // Change message every attempt
+    noBtn.textContent = noMessages[attempt % noMessages.length];
+    attempt++;
+
+    // Random floating position
+    noBtn.style.position = "absolute";
+    noBtn.style.left = Math.random() * (rect.width - 140) + "px";
+    noBtn.style.top = Math.random() * (rect.height - 140) + "px";
+
+    // Floating animation effect
+    noBtn.style.transition = "all 0.25s ease-out";
+
+    // Gradually shrink + fade
+    if (attempt > 4) {
+        noBtn.style.transform = "scale(0.85)";
+        noBtn.style.opacity = "0.85";
+    }
+    if (attempt > 7) {
+        noBtn.style.transform = "scale(0.7)";
+        noBtn.style.opacity = "0.7";
+    }
+}
+
+// Trigger on EVERYTHING 😈
+noBtn.addEventListener("mouseover", floatAway);
+noBtn.addEventListener("mousedown", floatAway);
+noBtn.addEventListener("touchstart", floatAway);
+noBtn.addEventListener("click", floatAway);
+</script>
+
+</body>
+</html>
