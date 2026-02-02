@@ -48,4 +48,197 @@ body{
     background:#fff;border-radius:50%;
     animation:twinkle 3s infinite alternate;
 }
-@keyframes twinkle{from{opacity:.3}to{opa
+@keyframes twinkle{
+    from{opacity:.3}
+    to{opacity:1}
+}
+
+/* HEARTS */
+.heart{
+    position:absolute;
+    font-size:1.5rem;
+    animation:float 6s linear infinite;
+}
+@keyframes float{
+    from{transform:translateY(100vh);opacity:1}
+    to{transform:translateY(-120vh);opacity:0}
+}
+
+/* CARD */
+.card{
+    background:rgba(255,255,255,.12);
+    backdrop-filter:blur(12px);
+    border-radius:25px;
+    padding:40px;
+    text-align:center;
+    max-width:420px;
+    width:90%;
+    position:absolute;
+    top:50%;left:50%;
+    transform:translate(-50%,-50%);
+    box-shadow:0 0 40px rgba(255,105,180,.3);
+}
+
+.message{
+    font-family:'Pacifico',cursive;
+    font-size:2rem;
+    margin-bottom:25px;
+    color:#ffb6c1;
+}
+
+.buttons{
+    display:flex;
+    gap:20px;
+    justify-content:center;
+    flex-wrap:wrap;
+}
+
+button{
+    font-size:1.1rem;
+    padding:14px 28px;
+    border:none;
+    border-radius:50px;
+    cursor:pointer;
+    transition:.3s;
+}
+
+.yes-btn{
+    background:linear-gradient(45deg,#ff4d8d,#ff85a2);
+    color:#fff;
+}
+.yes-btn:hover{transform:scale(1.1)}
+
+.no-btn{
+    background:linear-gradient(45deg,#6c757d,#495057);
+    color:#fff;
+    position:relative;
+}
+
+.success{
+    display:none;
+    margin-top:25px;
+    font-family:'Pacifico',cursive;
+    font-size:1.6rem;
+    color:#ffdde1;
+}
+
+/* MUSIC BUTTON */
+.music-btn{
+    position:fixed;
+    top:15px;right:15px;
+    background:rgba(255,255,255,.2);
+    padding:8px 14px;
+    border-radius:20px;
+    cursor:pointer;
+}
+</style>
+</head>
+
+<body>
+
+<!-- CLICK SCREEN -->
+<div id="clickScreen">
+    <div>Click on this 💖</div>
+</div>
+
+<!-- MAIN CONTENT -->
+<div id="mainContent" style="display:none;">
+
+    <div class="card">
+        <div class="message">
+            Hey My Love,<br>
+            Will you be my Valentine? 💕
+        </div>
+
+        <div class="buttons">
+            <button class="yes-btn" id="yesBtn">Yes ❤️</button>
+            <button class="no-btn" id="noBtn">No 💔</button>
+        </div>
+
+        <div class="success" id="successMsg">
+            Yay! You just made my universe brighter 🌌💞
+        </div>
+    </div>
+
+    <audio id="bgMusic" loop>
+        <source src="bgsong.m4a" type="audio/mp4">
+    </audio>
+    <div class="music-btn" id="musicBtn">🎵 Play</div>
+
+</div>
+
+<script>
+/* STARS */
+for(let i=0;i<120;i++){
+    let s=document.createElement("div");
+    s.className="star";
+    s.style.left=Math.random()*100+"vw";
+    s.style.top=Math.random()*100+"vh";
+    document.body.appendChild(s);
+}
+
+/* HEARTS */
+setInterval(()=>{
+    let h=document.createElement("div");
+    h.className="heart";
+    h.textContent="💖";
+    h.style.left=Math.random()*100+"vw";
+    document.body.appendChild(h);
+    setTimeout(()=>h.remove(),6000);
+},800);
+
+/* CLICK SCREEN */
+const clickScreen=document.getElementById("clickScreen");
+const mainContent=document.getElementById("mainContent");
+const music=document.getElementById("bgMusic");
+const musicBtn=document.getElementById("musicBtn");
+let playing=false;
+
+clickScreen.onclick=()=>{
+    clickScreen.style.display="none";
+    mainContent.style.display="block";
+    music.play();
+    musicBtn.textContent="🔇 Pause";
+    playing=true;
+};
+
+/* MUSIC TOGGLE */
+musicBtn.onclick=()=>{
+    if(playing){music.pause();musicBtn.textContent="🎵 Play";}
+    else{music.play();musicBtn.textContent="🔇 Pause";}
+    playing=!playing;
+};
+
+/* YES / NO */
+const yesBtn=document.getElementById("yesBtn");
+const noBtn=document.getElementById("noBtn");
+const successMsg=document.getElementById("successMsg");
+
+yesBtn.onclick=()=>{
+    successMsg.style.display="block";
+    yesBtn.style.display="none";
+    noBtn.style.display="none";
+};
+
+const msgs=[
+ "Why saying no? 😢","Don’t you love me? 💔","Please don’t do this 🥺",
+ "I know you love me ❤️","Come on… say Yes 😘","Universe already decided 🌌"
+];
+let i=0;
+
+function floatAway(e){
+    e.preventDefault();
+    const card=document.querySelector(".card").getBoundingClientRect();
+    noBtn.textContent=msgs[i++%msgs.length];
+    noBtn.style.position="absolute";
+    noBtn.style.left=Math.random()*(card.width-140)+"px";
+    noBtn.style.top=Math.random()*(card.height-140)+"px";
+}
+
+["mouseover","click","touchstart","mousedown"].forEach(ev=>{
+    noBtn.addEventListener(ev,floatAway);
+});
+</script>
+
+</body>
+</html>
