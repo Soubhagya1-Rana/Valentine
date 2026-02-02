@@ -182,6 +182,22 @@ setInterval(()=>{
 </script>
 
 <script>
+
+    // 🎵 MUSIC TOGGLE
+const music = document.getElementById("bgMusic");
+const musicBtn = document.getElementById("musicBtn");
+let isPlaying = false;
+
+musicBtn.addEventListener("click", () => {
+    if (!isPlaying) {
+        music.play();
+        musicBtn.textContent = "🔇 Pause";
+    } else {
+        music.pause();
+        musicBtn.textContent = "🎵 Play";
+    }
+    isPlaying = !isPlaying;
+});
 const noBtn = document.getElementById("noBtn");
 
 const yesBtn = document.getElementById("yesBtn");
@@ -246,3 +262,4 @@ noBtn.addEventListener("click", floatAway);
 
 </body>
 </html>
+
